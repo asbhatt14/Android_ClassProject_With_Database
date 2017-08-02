@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AgencyApp</string>
+    <string name="userNameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="welcomeMessage">Secret Agent Login</string>
+</resources>
