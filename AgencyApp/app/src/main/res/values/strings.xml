@@ -3,4 +3,7 @@
     <string name="userNameHint">Username</string>
     <string name="passwordHint">Password</string>
     <string name="welcomeMessage">Secret Agent Login</string>
+    <string name="agentList">Agents List</string>
+    <string name="agentSearch">Agent Search</string>
+    <string name="agentAdd">Agent Add</string>
 </resources>
