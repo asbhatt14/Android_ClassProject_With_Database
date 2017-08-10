@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.ankur.agencyapp.R;
 
@@ -26,9 +28,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Home Screen");
 
+
+        TextView txtToolbar = (TextView) toolbar.findViewById(R.id.txtToolbar);
+        ImageView imgToolbarBack = (ImageView) toolbar.findViewById(R.id.imgToolbarBack);
+
+        txtToolbar.setText("Home Screen");
+        imgToolbarBack.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
+
 
        /* toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setNavigationOnClickListener(

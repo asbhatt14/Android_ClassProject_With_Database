@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ankur.agencyapp.Model.Mission;
@@ -55,10 +57,26 @@ public class AgentMissionHistoryActivity extends AppCompatActivity {
 
     public void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Mission History");
+
+        TextView txtToolbar = (TextView) toolbar.findViewById(R.id.txtToolbar);
+        ImageView imgToolbarBack = (ImageView) toolbar.findViewById(R.id.imgToolbarBack);
+
+        txtToolbar.setText("Mission History");
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.toolbar_back);
+
+        imgToolbarBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+        /*toolbar.setTitle("Mission History");
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -66,6 +84,6 @@ public class AgentMissionHistoryActivity extends AppCompatActivity {
                         onBackPressed();
                     }
                 }
-        );
+        );*/
     }
 }

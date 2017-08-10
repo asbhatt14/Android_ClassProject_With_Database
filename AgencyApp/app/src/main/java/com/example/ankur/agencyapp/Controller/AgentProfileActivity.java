@@ -22,7 +22,7 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agent_profile);
+        setContentView(R.layout.agent_profile_layout);
         initToolBar();
         Intent intent = getIntent();
         Agents agent = (Agents) intent.getSerializableExtra("agent");
@@ -62,10 +62,25 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
 
     public void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Agent Profile");
+
+        TextView txtToolbar = (TextView) toolbar.findViewById(R.id.txtToolbar);
+        ImageView imgToolbarBack = (ImageView) toolbar.findViewById(R.id.imgToolbarBack);
+        //toolbar.setTitle("Agent List");
+        txtToolbar.setText("Agent Profile");
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.toolbar_back);
+
+        imgToolbarBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        /*toolbar.setTitle("Agent Profile");
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -73,7 +88,7 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
                         onBackPressed();
                     }
                 }
-        );
+        );*/
     }
 
     @Override

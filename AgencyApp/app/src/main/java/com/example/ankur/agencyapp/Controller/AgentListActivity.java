@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ankur.agencyapp.Model.Agents;
@@ -20,6 +22,8 @@ public class AgentListActivity extends AppCompatActivity implements AdapterView.
     ListView agentList_lstAgent;
     ArrayList<Agents> listOfAgent;
     AgentListAdapter adapter;
+    TextView txtToolbar;
+    ImageView imgToolbarBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +54,21 @@ public class AgentListActivity extends AppCompatActivity implements AdapterView.
 
     public void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Agent List");
+        txtToolbar = (TextView) toolbar.findViewById(R.id.txtToolbar);
+        imgToolbarBack = (ImageView) toolbar.findViewById(R.id.imgToolbarBack);
+        //toolbar.setTitle("Agent List");
+        txtToolbar.setText("Agent List");
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.toolbar_back);
+
+        imgToolbarBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+       /* toolbar.setNavigationIcon(R.drawable.back);
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -61,7 +76,7 @@ public class AgentListActivity extends AppCompatActivity implements AdapterView.
                         onBackPressed();
                     }
                 }
-        );
+        );*/
     }
 
     @Override

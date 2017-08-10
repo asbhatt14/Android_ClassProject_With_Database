@@ -2,85 +2,121 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/listViewBackground"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <include
+        layout="@layout/toolbar_layout"/>
+    <ImageView
+        android:layout_height="170dp"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:background="@color/themeColor"
-        android:minHeight="?attr/actionBarSize"
-        android:titleTextColor="#ffffff">
-    </android.support.v7.widget.Toolbar>
-
+        android:src="@drawable/index"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"/>
     <LinearLayout
         android:id="@+id/home_lnrAgentList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/list_background">
+        <LinearLayout
+            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/circle_drawable"
+            android:layout_marginLeft="10dp">
         <ImageView
             android:id="@+id/home_imgList"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_width="0dp"
             android:src="@drawable/img_list_icon"
+            android:layout_gravity="center"
             android:layout_weight="0.4"/>
+         </LinearLayout>
         <TextView
             android:id="@+id/home_txtAgentList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/agentList"
-            android:textColor="#000000"
+            android:textColor="@color/textColorBlack"
             android:textSize="20sp"
             android:layout_weight="0.6"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/home_lnrAgentSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/list_background">
+        <LinearLayout
+            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/circle_drawable"
+            android:layout_marginLeft="10dp">
         <ImageView
             android:id="@+id/home_imgSearch"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_width="0dp"
-            android:src="@drawable/img_search"
-            android:layout_weight="0.4"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:src="@drawable/img_search"/>
+         </LinearLayout>
         <TextView
             android:id="@+id/home_txtAgentSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/agentSearch"
             android:layout_marginRight="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/textColorBlack"
             android:textSize="20sp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="0.6"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/home_lnrAgentAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/list_background">
+        <LinearLayout
+            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/circle_drawable"
+            android:layout_marginLeft="10dp">
         <ImageView
             android:id="@+id/home_imgAdd"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_width="0dp"
             android:src="@drawable/img_add"
+            android:layout_gravity="center"
             android:layout_weight="0.4"/>
+         </LinearLayout>
         <TextView
             android:id="@+id/home_txtAgentAdd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/agentAdd"
             android:layout_marginRight="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/textColorBlack"
             android:textSize="20sp"
-            android:layout_weight="0.6"/>
+            android:layout_weight="0.6"
+            android:layout_marginLeft="20dp"/>
     </LinearLayout>
 </LinearLayout>

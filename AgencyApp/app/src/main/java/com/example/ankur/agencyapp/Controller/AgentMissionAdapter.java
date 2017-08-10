@@ -66,7 +66,7 @@ public class AgentMissionAdapter extends ArrayAdapter<Mission> {
 
         viewHolder.mission_txtMissionName.setText("Mission Name:"+objMission.getMissionName());
         viewHolder.mission_txtMissionDate.setText("Date:"+df.format(objMission.getMissionDate()));
-        viewHolder.mission_txtMissionStatus.setText("Status:"+objMission.getMissionStatus());
+        viewHolder.mission_txtMissionStatus.setText(objMission.getMissionStatus());
 
         return result;
     }

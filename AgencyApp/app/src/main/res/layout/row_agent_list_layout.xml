@@ -6,13 +6,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/list_background"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp">
         <ImageView
             android:id="@+id/agentList_imgAgentProfile"
             android:layout_width="0dp"
             android:layout_height="90dp"
             android:layout_weight="0.4"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_launcher"
             android:scaleType="fitXY"/>
         <LinearLayout
@@ -28,15 +32,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name:"
-                    android:textColor="#000000"
-                    android:textSize="20sp"/>
+                    android:textColor="#333333"
+                    android:textSize="18sp"/>
             <TextView
                 android:id="@+id/agentList_txtLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Level:"
-                android:textColor="#000000"
-                android:textSize="20sp"
+                android:textColor="#929292"
+                android:textSize="18sp"
                 android:layout_marginTop="3dp"/>
         </LinearLayout>
     </LinearLayout>
