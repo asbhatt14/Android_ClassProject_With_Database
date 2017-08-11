@@ -9,6 +9,16 @@
     <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/txtToolbarCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Cancel"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone"
+            android:textColor="@color/white"/>
         <ImageView
             android:id="@+id/imgToolbarBack"
             android:layout_height="35dp"
@@ -22,5 +32,16 @@
             android:textSize="22sp"
             android:textColor="@color/white"
             android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/txtToolbarSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Save"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:layout_marginRight="16dp"/>
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

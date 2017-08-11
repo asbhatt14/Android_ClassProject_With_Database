@@ -1,6 +1,10 @@
 package com.example.ankur.agencyapp.Controller;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,13 +23,14 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
     TextView agentProfile_txtAgentCountry,agentProfile_txtAgentPhoneNumber,agentProfile_txtAgentAddress;
     ImageView agentProfile_imgAgentInfo,agentProfile_imgAgentSMS,agentProfile_imgAgentWebSite;
     ImageView agentProfile_imgAgentCall,agentProfile_imgAgentLocation,agentProfile_imgAgentCamera;
+    Agents agent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agent_profile_layout);
         initToolBar();
         Intent intent = getIntent();
-        Agents agent = (Agents) intent.getSerializableExtra("agent");
+        agent = (Agents) intent.getSerializableExtra("agent");
         agentProfile_txtAgentName = (TextView) findViewById(R.id.agentProfile_txtAgentName);
         agentProfile_txtAgentLevel = (TextView) findViewById(R.id.agentProfile_txtAgentLevel);
         agentProfile_txtAgency = (TextView) findViewById(R.id.agentProfile_txtAgency);
@@ -52,7 +57,11 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
         agentProfile_txtAgentAddress.setText(agent.getAgeentAddress());
 
         agentProfile_imgAgentInfo.setOnClickListener(this);
-
+        agentProfile_imgAgentCamera.setOnClickListener(this);
+        agentProfile_imgAgentWebSite.setOnClickListener(this);
+        agentProfile_imgAgentSMS.setOnClickListener(this);
+        agentProfile_imgAgentCall.setOnClickListener(this);
+        agentProfile_imgAgentLocation.setOnClickListener(this);
     }
 
     @Override
@@ -95,13 +104,63 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.agentProfile_imgAgentInfo:
-                Toast.makeText(this,"1 profile",Toast.LENGTH_SHORT).show();
                 Intent agentMission = new Intent(this,AgentMissionHistoryActivity.class);
-                Toast.makeText(this,"2  profile",Toast.LENGTH_SHORT).show();
+                agentMission.putExtra("missionId",agent.getMissionId());
                 startActivity(agentMission);
+                break;
+            case R.id.agentProfile_imgAgentCamera:
+                Intent missionUpdate = new Intent(this,MissionUpdateGridActivity.class);
+                startActivity(missionUpdate);
+                break;
+            case R.id.agentProfile_imgAgentWebSite:
+                openWebBrowser();
+                break;
+            case R.id.agentProfile_imgAgentSMS:
+                sendSms();
+                break;
+            case R.id.agentProfile_imgAgentCall:
+                MakeCall();
+                break;
+            case R.id.agentProfile_imgAgentLocation:
+                GoToLocation();
                 break;
             default:
                 break;
         }
+    }
+
+    private void GoToLocation() {
+        Intent callIntent = new Intent(Intent.ACTION_VIEW);
+        callIntent.setData(Uri.parse("geo:0,0?q="+agent.getAgeentAddress()));
+        startActivity(callIntent);
+    }
+
+    private void MakeCall() {
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},123);
+        }else{
+            Intent callIntent = new Intent(Intent.ACTION_VIEW);
+            callIntent.setData(Uri.parse("tel:"+agent.getAgeentPhoneNumber()));
+            startActivity(callIntent);
+        }
+
+    }
+
+
+    private void sendSms() {
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+        smsIntent.setData(Uri.parse("sms:"+agent.getAgeentPhoneNumber()));
+        startActivity(smsIntent);
+    }
+
+    private void openWebBrowser() {
+        Intent website = new Intent(Intent.ACTION_VIEW);
+        String websiteAddress = agent.getAgentURL();
+        if(!websiteAddress.startsWith("http://")){
+            websiteAddress = "http://" + websiteAddress;
+        }
+        website.setData(Uri.parse(websiteAddress));
+        startActivity(website);
     }
 }

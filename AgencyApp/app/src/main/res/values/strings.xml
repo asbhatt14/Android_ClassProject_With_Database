@@ -6,4 +6,5 @@
     <string name="agentList">Agents List</string>
     <string name="agentSearch">Agent Search</string>
     <string name="agentAdd">Agent Add</string>
+    <string name="MissionAdd">Add Mission</string>
 </resources>

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ankur.agencyapp">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,16 +14,26 @@
         <activity android:name=".Controller.LoginActivity">
 
             <!-- android:theme="@style/Theme.AppCompat.NoActionBar"> -->
+<!--            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".Controller.HomeActivity" />
+        <activity android:name=".Controller.AgentListActivity" />
+        <activity android:name=".Controller.AgentProfileActivity" />
+        <activity android:name=".Controller.AgentMissionHistoryActivity" />
+        <activity android:name=".Controller.MissionUpdateGridActivity" />
+        <activity android:name=".Controller.AddAgentActivity" />
+        <activity android:name=".Controller.AddMissionActivity" />
+        <activity android:name=".Controller.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.HomeActivity" />
-        <activity android:name=".Controller.AgentListActivity" />
-        <activity android:name=".Controller.AgentProfileActivity" />
-        <activity android:name=".Controller.AgentMissionHistoryActivity"></activity>
     </application>
 
 </manifest>

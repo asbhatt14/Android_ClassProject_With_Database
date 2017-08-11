@@ -14,7 +14,7 @@ import com.example.ankur.agencyapp.R;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
-    LinearLayout home_lnrAgentList,home_lnrAgentSearch,home_lnrAgentAdd;
+    LinearLayout home_lnrAgentList,home_lnrAgentSearch,home_lnrAgentAdd,home_lnrMissionAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +23,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         home_lnrAgentList = (LinearLayout) findViewById(R.id.home_lnrAgentList);
         home_lnrAgentSearch = (LinearLayout) findViewById(R.id.home_lnrAgentSearch);
         home_lnrAgentAdd = (LinearLayout) findViewById(R.id.home_lnrAgentAdd);
+        home_lnrMissionAdd = (LinearLayout) findViewById(R.id.home_lnrMissionAdd);
         home_lnrAgentList.setOnClickListener(this);
+        home_lnrAgentAdd.setOnClickListener(this);
+        home_lnrMissionAdd.setOnClickListener(this);
     }
 
     public void initToolBar() {
@@ -37,17 +40,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         imgToolbarBack.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
 
-
-       /* toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(AndroidToolbarExample.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-        );*/
     }
 
     @Override
@@ -60,6 +52,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.home_lnrAgentSearch:
                 break;
             case R.id.home_lnrAgentAdd:
+                Intent agentAdd = new Intent(this,AddAgentActivity.class);
+                startActivity(agentAdd);
+                break;
+            case R.id.home_lnrMissionAdd:
+                Intent missionAdd = new Intent(this,AddMissionActivity.class);
+                startActivity(missionAdd);
                 break;
             default:
                 break;

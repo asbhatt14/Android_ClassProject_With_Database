@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/listViewBackground">
+    <include
+        layout="@layout/toolbar_layout"/>
+    <EditText
+        android:id="@+id/addMission_edtMissionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mission Name"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textColorHint="#b2b8c4"
+        android:textColor="#474c54"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_background"/>
+    <EditText
+        android:id="@+id/addMission_edtMissionDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="DD/MM/YYYY"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textColorHint="#b2b8c4"
+        android:textColor="#474c54"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_background"/>
+    <EditText
+        android:id="@+id/addMission_edtMissionStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Status Of Mission"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textColorHint="#b2b8c4"
+        android:textColor="#474c54"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_background"/>
+    <Button
+        android:id="@+id/addMission_btnAddMission"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Add Mission"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/login_button_background"/>
+</LinearLayout>

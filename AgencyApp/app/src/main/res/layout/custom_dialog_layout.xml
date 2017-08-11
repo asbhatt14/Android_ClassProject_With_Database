@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:background="@color/listViewBackground"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:text="Mission List"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <ListView
+            android:id="@+id/lstDialog"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/dialog_lnrBottom"
+        android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:id="@id/dialog_lnrBottom"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.1"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
+            <Button
+                android:id="@+id/dialog_btnSave"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.5"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@drawable/login_button_background"/>
+            <Button
+                android:id="@+id/dialog_btnCacel"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.5"
+                android:text="Cancel"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@drawable/login_button_background"/>
+        </LinearLayout>
+
+</LinearLayout>

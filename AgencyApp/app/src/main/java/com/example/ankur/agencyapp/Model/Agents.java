@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class Agents implements Serializable {
-    private String agentId;
+    private long agentId;
     private String agentName;
     private String agencyName;
     private String agentLevel;
@@ -15,8 +15,9 @@ public class Agents implements Serializable {
     private String ageentPhoneNumber;
     private String agentURL;
     private String ageentAddress;
+    private String missionId;
 
-    public Agents(String agentId, String agentName, String agencyName, String agentLevel, String agentCountry, String ageentPhoneNumber, String agentURL, String ageentAddress) {
+    public Agents(long agentId, String agentName, String agencyName, String agentLevel, String agentCountry, String ageentPhoneNumber, String agentURL, String ageentAddress) {
         this.agentId = agentId;
         this.agentName = agentName;
         this.agencyName = agencyName;
@@ -27,11 +28,23 @@ public class Agents implements Serializable {
         this.ageentAddress = ageentAddress;
     }
 
-    public String getAgentId() {
+    public Agents(){
+
+    }
+
+    public String getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(String missionId) {
+        this.missionId = missionId;
+    }
+
+    public long getAgentId() {
         return agentId;
     }
 
-    public void setAgentId(String agentId) {
+    public void setAgentId(long agentId) {
         this.agentId = agentId;
     }
 
