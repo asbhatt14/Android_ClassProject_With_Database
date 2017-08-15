@@ -2,6 +2,7 @@ package com.example.ankur.agencyapp.Controller;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,19 +30,21 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddAgentActivity extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout agentAdd_lnrMission;
     CustomDialogAdapter adapter;
-    List<Mission> lstMision;
+    List<Mission> lstMision,lstMissionHistoryTemp;
     List<Long> lstMissionId;
     TextView agent_misionDetails;
     Toolbar toolbar;
     DateFormat df;
     EditText agentAdd_edtAgentName,agentAdd_edtAgentLevel,agentAdd_edtAgency,agentAdd_edtAgentWebsite;
     EditText agentAdd_edtAgentCountry,agentAdd_edtAgentPhoneNumber,agentAdd_edtAgentAddress;
+    Agents agent,objAgent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,15 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
         agentAdd_edtAgentAddress = (EditText) findViewById(R.id.agentAdd_edtAgentAddress);
 
         agentAdd_lnrMission.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        agent = (Agents) intent.getSerializableExtra("agent");
+        lstMissionId = new ArrayList<Long>();
+        lstMissionHistoryTemp = new ArrayList<Mission>();
+         objAgent = new Agents();
+        if(agent!=null){
+            fillForm();
+        }
     }
 
     @Override
@@ -91,30 +103,23 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
         ListView lstDialog = (ListView) view.findViewById(R.id.lstDialog);
         Button dialog_btnSave = (Button) view.findViewById(R.id.dialog_btnSave);
         Button dialog_btnCacel = (Button) view.findViewById(R.id.dialog_btnCacel);
-        lstMissionId = new ArrayList<Long>();
 
-       // lstMision = new ArrayList<Mission>();
-        /*try {
-            lstMision.add(new Mission(1,"Mission 1",df.parse("01/05/2015"),"Open"));
-            lstMision.add(new Mission(2,"Mission 2",df.parse("01/05/2016s"),"Done"));
-            lstMision.add(new Mission(3,"Mission 3",df.parse("01/05/2016"),"Cancelled"));
-            lstMision.add(new Mission(4,"Mission 4",df.parse("01/05/2017"),"On going"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
 
         MissionDAO missionDAO = new MissionDAO(this);
         lstMision =  missionDAO.dbSearch();
         missionDAO.close();
 
-        adapter = new CustomDialogAdapter(getApplicationContext(),lstMision);
+        adapter = new CustomDialogAdapter(getApplicationContext(),lstMision,lstMissionHistoryTemp);
         lstDialog.setAdapter(adapter);
 
 
         dialog_btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                agent_misionDetails.setText("");
                 if(adapter.selectedItems.size()>0){
+                    lstMissionId.clear();
                     for(int i= 0;i<adapter.selectedItems.size();i++){
                         //Toast.makeText(AddAgentActivity.this,Integer.toString(adapter.selectedItems.size()),Toast.LENGTH_SHORT).show();
                         agent_misionDetails.setText(agent_misionDetails.getText() + adapter.selectedItems.get(i).getMissionName() + "\n");
@@ -159,15 +164,23 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
     private void saveAgent() {
         Agents objAgent = agentsHelper();
         AgentDAO dao = new AgentDAO(this);
-        dao.dbInsert(objAgent);
+
+        if(objAgent.getAgentId() == 0){
+            dao.dbInsert(objAgent);
+            Toast.makeText(this,"Agent Added",Toast.LENGTH_SHORT).show();
+        }else{
+            dao.dbUpdate(objAgent);
+            Toast.makeText(this,"Agent Updated",Toast.LENGTH_SHORT).show();
+        }
+
         dao.close();
-        Toast.makeText(this,"Agent Added",Toast.LENGTH_SHORT).show();
+
         finish();
     }
 
     private Agents agentsHelper() {
 //agentId INTEGER PRIMARY KEY, agentName TEXT NOT NULL,agencyName TEXT NOT NULL ,agentLevel TEXT,agentCountry TEXT, ageentPhoneNumber TEXT, agentURL TEXT, ageentAddress TEXT NOT NULL,missionId TEXT NOT NULL)";
-        Agents objAgent = new Agents();
+        //Agents objAgent = new Agents();
         objAgent.setAgentName(agentAdd_edtAgentName.getText().toString());
         objAgent.setAgentLevel(agentAdd_edtAgentLevel.getText().toString());
         objAgent.setAgencyName(agentAdd_edtAgency.getText().toString());
@@ -196,6 +209,43 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
 
         objAgent.setMissionId(missionId);
         return objAgent;
+    }
+
+    private void fillForm() {
+
+        agentAdd_edtAgentName.setText(agent.getAgentName());
+
+        agentAdd_edtAgentLevel.setText(agent.getAgentLevel());
+
+        agentAdd_edtAgency.setText(agent.getAgencyName());
+        agentAdd_edtAgentWebsite.setText(agent.getAgentURL());
+        agentAdd_edtAgentCountry.setText(agent.getAgentCountry());
+        agentAdd_edtAgentPhoneNumber.setText(agent.getAgeentPhoneNumber());
+        agentAdd_edtAgentAddress.setText(agent.getAgeentAddress());
+
+        List<String> misionIdList = Arrays.asList(agent.getMissionId().split("\\s*,\\s*"));
+
+
+        MissionDAO missionDAO = new MissionDAO(this);
+        List<Mission> lstMissionTemp =  missionDAO.dbSearch();
+
+        missionDAO.close();
+
+        for(int i=0;i<lstMissionTemp.size();i++){
+            for(int j=0;j<misionIdList.size();j++){
+                if(Long.toString(lstMissionTemp.get(i).getMissionId()).equals(misionIdList.get(j))){
+                    lstMissionHistoryTemp.add(lstMissionTemp.get(i));
+                    lstMissionId.add(lstMissionTemp.get(i).getMissionId());
+                }
+            }
+        }
+
+        for(int i=0;i<lstMissionHistoryTemp.size();i++){
+            agent_misionDetails.setText(agent_misionDetails.getText() + lstMissionHistoryTemp.get(i).getMissionName() + "\n");
+        }
+
+        objAgent = agent;
+
     }
 
 }

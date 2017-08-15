@@ -56,7 +56,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/home_lnrAgentSearch"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -91,7 +91,7 @@
             android:textSize="20sp"
             android:layout_marginLeft="20dp"
             android:layout_weight="0.6"/>
-    </LinearLayout>
+    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/home_lnrAgentAdd"
         android:layout_width="match_parent"
@@ -161,6 +161,39 @@
             android:layout_weight="0.6"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
+            <LinearLayout
+                android:id="@+id/home_lnrMissionList"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/list_background">
+                <LinearLayout
+                    android:layout_height="60dp"
+                    android:layout_width="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle_drawable"
+                    android:layout_marginLeft="10dp">
+                    <ImageView
+                        android:layout_height="30dp"
+                        android:layout_width="0dp"
+                        android:src="@drawable/img_list_icon"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.4"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Mission List"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/textColorBlack"
+                    android:textSize="20sp"
+                    android:layout_weight="0.6"
+                    android:layout_marginLeft="20dp"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

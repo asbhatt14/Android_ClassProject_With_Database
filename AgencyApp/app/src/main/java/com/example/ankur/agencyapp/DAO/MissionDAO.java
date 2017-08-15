@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.ankur.agencyapp.Model.Agents;
 import com.example.ankur.agencyapp.Model.Mission;
 
 import java.text.DateFormat;
@@ -72,6 +73,18 @@ public class MissionDAO extends SQLiteOpenHelper {
         c.close();
 
         return missionList;
+    }
+
+    public void dbUpdate(Mission mission){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("missionName",mission.getMissionName());
+        values.put("missionDate",df.format(mission.getMissionDate()));
+        values.put("missionStatus",mission.getMissionStatus());
+
+        String[] params = {((Long.toString(mission.getMissionId())))};
+        db.update("mission",values,"missionId = ?",params);
     }
 
 }

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="#ffffff">-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#ffffff">
+<LinearLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:gravity="center"
     android:layout_gravity="center"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
     <ImageView
         android:id="@+id/login_imgLogo"
         android:layout_width="match_parent"
@@ -118,5 +120,5 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-<!--
-</ScrollView>-->
+
+</ScrollView>

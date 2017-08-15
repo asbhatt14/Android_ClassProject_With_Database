@@ -1,16 +1,27 @@
 package com.example.ankur.agencyapp.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ALONE on 8/3/2017.
  */
 
-public class Mission {
+public class Mission implements Serializable {
     private long missionId;
     private String missionName;
     private Date missionDate;
     private String missionStatus;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    private boolean isChecked;
 
     public Mission(long missionId, String missionName, Date missionDate, String missionStatus) {
         this.missionId = missionId;

@@ -1,5 +1,6 @@
 package com.example.ankur.agencyapp.Controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ankur.agencyapp.DAO.MissionDAO;
+import com.example.ankur.agencyapp.Model.Agents;
 import com.example.ankur.agencyapp.Model.Mission;
 import com.example.ankur.agencyapp.R;
 
@@ -26,6 +28,7 @@ public class AddMissionActivity extends AppCompatActivity implements View.OnClic
     TextView txtToolbar;
     ImageView imgToolbarBack;
     DateFormat df;
+    Mission mission,objMission;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,13 @@ public class AddMissionActivity extends AppCompatActivity implements View.OnClic
         addMission_btnAddMission = (Button) findViewById(R.id.addMission_btnAddMission);
         addMission_btnAddMission.setOnClickListener(this);
         df = new SimpleDateFormat("dd/MM/yyyy");
+
+         objMission = new Mission();
+        Intent intent = getIntent();
+        mission = (Mission) intent.getSerializableExtra("mission");
+        if(mission!=null){
+            fillDetails();
+        }
     }
 
     public void initToolBar() {
@@ -65,15 +75,22 @@ public class AddMissionActivity extends AppCompatActivity implements View.OnClic
     private void saveMission() {
         Mission objMission = missionHelper();
         MissionDAO dao = new MissionDAO(this);
-        dao.dbInsert(objMission);
+
+        if(Long.valueOf(objMission.getMissionId()) == null){
+            dao.dbInsert(objMission);
+            Toast.makeText(this,"Mission Added",Toast.LENGTH_SHORT).show();
+        }else {
+            dao.dbUpdate(objMission);
+            Toast.makeText(this,"Mission Udated",Toast.LENGTH_SHORT).show();
+        }
+
         dao.close();
-        Toast.makeText(this,"Mission Added",Toast.LENGTH_SHORT).show();
+
         finish();
     }
 
     private Mission missionHelper() {
 
-        Mission objMission = new Mission();
         objMission.setMissionName(addMission_edtMissionName.getText().toString());
         try {
             objMission.setMissionDate(df.parse(addMission_edtMissionDate.getText().toString()));
@@ -83,5 +100,12 @@ public class AddMissionActivity extends AppCompatActivity implements View.OnClic
         objMission.setMissionStatus(addMission_edtMissionStatus.getText().toString());
 
         return objMission;
+    }
+
+    private void fillDetails() {
+        addMission_edtMissionName.setText(mission.getMissionName());
+        addMission_edtMissionDate.setText(df.format(mission.getMissionDate()));
+        addMission_edtMissionStatus.setText(mission.getMissionStatus());
+        objMission = mission;
     }
 }

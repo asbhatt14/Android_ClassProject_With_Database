@@ -26,13 +26,15 @@ import java.util.List;
 
 public class CustomDialogAdapter extends ArrayAdapter<Mission> {
 
-    private ArrayList<Mission> listOfMission;
-    public ArrayList<Mission> selectedItems;
+    private List<Mission> lstMissionHistoryTemp;
+    public List<Mission> selectedItems;
     Context context;
 
-    public CustomDialogAdapter(@NonNull Context context, @NonNull List<Mission> objects) {
+    public CustomDialogAdapter(@NonNull Context context, @NonNull List<Mission> objects,List<Mission> lstMissionHistoryTemp) {
         super(context, 0, objects);
         selectedItems = new ArrayList<Mission>();
+//        selectedItems = lstMissionHistoryTemp;
+        //this.lstMissionHistoryTemp = lstMissionHistoryTemp;
     }
 
     @NonNull
@@ -74,6 +76,14 @@ public class CustomDialogAdapter extends ArrayAdapter<Mission> {
                 //Toast.makeText(getContext(),Boolean.toString(viewHolder.dialog_chkMission.isChecked()),Toast.LENGTH_SHORT).show();
             }
         });
+
+/*        for(int i=0;i<selectedItems.size();i++){
+           if(objMission.getMissionId() == selectedItems.get(i).getMissionId()){
+               viewHolder.dialog_chkMission.setChecked(true);
+           }else {
+               viewHolder.dialog_chkMission.setChecked(false);
+           }
+        }*/
 
         viewHolder.dialog_chkMission.setText(objMission.getMissionName());
 

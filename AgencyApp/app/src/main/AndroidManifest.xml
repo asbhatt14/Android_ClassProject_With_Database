@@ -3,6 +3,9 @@
     package="com.example.ankur.agencyapp">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +17,13 @@
         <activity android:name=".Controller.LoginActivity">
 
             <!-- android:theme="@style/Theme.AppCompat.NoActionBar"> -->
-<!--            <intent-filter>
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity android:name=".Controller.HomeActivity" />
         <activity android:name=".Controller.AgentListActivity" />
@@ -34,6 +39,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".Controller.SMSBroadCastReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Controller.AllMissionListActivity"></activity>
     </application>
 
 </manifest>

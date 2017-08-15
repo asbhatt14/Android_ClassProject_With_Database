@@ -14,19 +14,21 @@ import com.example.ankur.agencyapp.R;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
-    LinearLayout home_lnrAgentList,home_lnrAgentSearch,home_lnrAgentAdd,home_lnrMissionAdd;
+    LinearLayout home_lnrAgentList,home_lnrAgentSearch,home_lnrAgentAdd,home_lnrMissionAdd,home_lnrMissionList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initToolBar();
         home_lnrAgentList = (LinearLayout) findViewById(R.id.home_lnrAgentList);
-        home_lnrAgentSearch = (LinearLayout) findViewById(R.id.home_lnrAgentSearch);
+       // home_lnrAgentSearch = (LinearLayout) findViewById(R.id.home_lnrAgentSearch);
         home_lnrAgentAdd = (LinearLayout) findViewById(R.id.home_lnrAgentAdd);
         home_lnrMissionAdd = (LinearLayout) findViewById(R.id.home_lnrMissionAdd);
+        home_lnrMissionList = (LinearLayout) findViewById(R.id.home_lnrMissionList);
         home_lnrAgentList.setOnClickListener(this);
         home_lnrAgentAdd.setOnClickListener(this);
         home_lnrMissionAdd.setOnClickListener(this);
+        home_lnrMissionList.setOnClickListener(this);
     }
 
     public void initToolBar() {
@@ -49,8 +51,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Intent agentList = new Intent(this,AgentListActivity.class);
                 startActivity(agentList);
                 break;
-            case R.id.home_lnrAgentSearch:
-                break;
+            /*case R.id.home_lnrAgentSearch:
+                break;*/
             case R.id.home_lnrAgentAdd:
                 Intent agentAdd = new Intent(this,AddAgentActivity.class);
                 startActivity(agentAdd);
@@ -58,6 +60,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.home_lnrMissionAdd:
                 Intent missionAdd = new Intent(this,AddMissionActivity.class);
                 startActivity(missionAdd);
+                break;
+            case R.id.home_lnrMissionList:
+                Intent missionList = new Intent(this,AllMissionListActivity.class);
+                startActivity(missionList);
                 break;
             default:
                 break;

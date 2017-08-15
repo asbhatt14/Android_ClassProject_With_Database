@@ -56,18 +56,9 @@ public class AgentMissionHistoryActivity extends AppCompatActivity {
             }
         }
 
-        //Date memberJoiningDate;
-       // String missionId, String missionName, Date missionDate, String missionStatus
-        /*try {
-            lstMision.add(new Mission(1,"Mission 1",df.parse("01/05/2015"),"Open"));
-            lstMision.add(new Mission(2,"Mission 2",df.parse("01/05/2016s"),"Done"));
-            lstMision.add(new Mission(3,"Mission 3",df.parse("01/05/2016"),"Cancelled"));
-            lstMision.add(new Mission(4,"Mission 4",df.parse("01/05/2017"),"On going"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
         adapter = new AgentMissionAdapter(getApplicationContext(),lstMisionHistory);
         agentMission_lstMission.setAdapter(adapter);
+
     }
 
     @Override
