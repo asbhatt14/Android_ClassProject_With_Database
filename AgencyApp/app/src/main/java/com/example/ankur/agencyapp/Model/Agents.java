@@ -16,6 +16,7 @@ public class Agents implements Serializable {
     private String agentURL;
     private String ageentAddress;
     private String missionId;
+    private String agentPhotoPath;
 
     public Agents(long agentId, String agentName, String agencyName, String agentLevel, String agentCountry, String ageentPhoneNumber, String agentURL, String ageentAddress) {
         this.agentId = agentId;
@@ -102,5 +103,13 @@ public class Agents implements Serializable {
 
     public void setAgeentAddress(String ageentAddress) {
         this.ageentAddress = ageentAddress;
+    }
+
+    public String getAgentPhotoPath() {
+        return agentPhotoPath;
+    }
+
+    public void setAgentPhotoPath(String agentPhotoPath) {
+        this.agentPhotoPath = agentPhotoPath;
     }
 }

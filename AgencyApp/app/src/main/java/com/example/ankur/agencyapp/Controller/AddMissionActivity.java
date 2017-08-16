@@ -74,32 +74,48 @@ public class AddMissionActivity extends AppCompatActivity implements View.OnClic
 
     private void saveMission() {
         Mission objMission = missionHelper();
-        MissionDAO dao = new MissionDAO(this);
 
-        if(Long.valueOf(objMission.getMissionId()) == null){
-            dao.dbInsert(objMission);
-            Toast.makeText(this,"Mission Added",Toast.LENGTH_SHORT).show();
-        }else {
-            dao.dbUpdate(objMission);
-            Toast.makeText(this,"Mission Udated",Toast.LENGTH_SHORT).show();
+        if(objMission!=null){
+            MissionDAO dao = new MissionDAO(this);
+
+            if(objMission.getMissionId() == 0){
+                dao.dbInsert(objMission);
+                Toast.makeText(this,"Mission Added",Toast.LENGTH_SHORT).show();
+            }else {
+                dao.dbUpdate(objMission);
+                Toast.makeText(this,"Mission Udated",Toast.LENGTH_SHORT).show();
+            }
+
+            dao.close();
+
+            finish();
         }
 
-        dao.close();
-
-        finish();
     }
 
     private Mission missionHelper() {
 
-        objMission.setMissionName(addMission_edtMissionName.getText().toString());
-        try {
-            objMission.setMissionDate(df.parse(addMission_edtMissionDate.getText().toString()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        objMission.setMissionStatus(addMission_edtMissionStatus.getText().toString());
+        String missionName = addMission_edtMissionName.getText().toString();
+        String missionDate = addMission_edtMissionDate.getText().toString();
+        String missionStatus = addMission_edtMissionStatus.getText().toString();
 
-        return objMission;
+        if((missionName != null && !missionName.trim().isEmpty()) && (missionDate != null && !missionDate.trim().isEmpty())
+                && (missionName != null && !missionName.trim().isEmpty())){
+            objMission.setMissionName(addMission_edtMissionName.getText().toString());
+            try {
+                objMission.setMissionDate(df.parse(addMission_edtMissionDate.getText().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            objMission.setMissionStatus(addMission_edtMissionStatus.getText().toString());
+
+            return objMission;
+        }else{
+            Toast.makeText(this,"Please Enter all details",Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+
     }
 
     private void fillDetails() {

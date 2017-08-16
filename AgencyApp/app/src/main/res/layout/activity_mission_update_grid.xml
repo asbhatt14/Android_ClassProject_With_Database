@@ -7,6 +7,7 @@
     <include
         layout="@layout/toolbar_layout"/>
     <LinearLayout
+        android:id="@+id/lnrAddMissionImage"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -14,7 +15,9 @@
         android:layout_gravity="center"
         android:background="#DADADA"
         android:layout_marginTop="10dp"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
         <ImageView
             android:layout_height="40dp"
             android:layout_width="40dp"
@@ -36,6 +39,8 @@
             android:layout_height="match_parent"
             android:numColumns="2"
             android:verticalSpacing="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_above="@+id/missionupdate_btnSend"/>
         <Button
             android:id="@id/missionupdate_btnSend"

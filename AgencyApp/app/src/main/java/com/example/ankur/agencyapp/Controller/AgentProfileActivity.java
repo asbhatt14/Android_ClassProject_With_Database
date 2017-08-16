@@ -3,6 +3,8 @@ package com.example.ankur.agencyapp.Controller;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +23,7 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
     Toolbar toolbar;
     TextView agentProfile_txtAgentName,agentProfile_txtAgentLevel,agentProfile_txtAgency,agentProfile_txtAgentWebsite;
     TextView agentProfile_txtAgentCountry,agentProfile_txtAgentPhoneNumber,agentProfile_txtAgentAddress;
-    ImageView agentProfile_imgAgentInfo,agentProfile_imgAgentSMS,agentProfile_imgAgentWebSite;
+    ImageView agentProfile_imgAgentInfo,agentProfile_imgAgentSMS,agentProfile_imgAgentWebSite,agentProfile_imgAgent;
     ImageView agentProfile_imgAgentCall,agentProfile_imgAgentLocation,agentProfile_imgAgentCamera;
     Agents agent;
     @Override
@@ -45,17 +47,11 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
         agentProfile_imgAgentCall = (ImageView) findViewById(R.id.agentProfile_imgAgentCall);
         agentProfile_imgAgentLocation = (ImageView) findViewById(R.id.agentProfile_imgAgentLocation);
         agentProfile_imgAgentCamera = (ImageView) findViewById(R.id.agentProfile_imgAgentCamera);
+        agentProfile_imgAgent = (ImageView) findViewById(R.id.agentProfile_imgAgent);
 
-        agentProfile_txtAgentName.setText(agent.getAgentName());
-
-       agentProfile_txtAgentLevel.setText(agent.getAgentLevel());
-
-        agentProfile_txtAgency.setText(agent.getAgencyName());
-        agentProfile_txtAgentWebsite.setText(agent.getAgentURL());
-        agentProfile_txtAgentCountry.setText(agent.getAgentCountry());
-        agentProfile_txtAgentPhoneNumber.setText(agent.getAgeentPhoneNumber());
-        agentProfile_txtAgentAddress.setText(agent.getAgeentAddress());
-
+        if(agent!=null){
+            fillDetails();
+        }
         agentProfile_imgAgentInfo.setOnClickListener(this);
         agentProfile_imgAgentCamera.setOnClickListener(this);
         agentProfile_imgAgentWebSite.setOnClickListener(this);
@@ -110,6 +106,7 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.agentProfile_imgAgentCamera:
                 Intent missionUpdate = new Intent(this,MissionUpdateGridActivity.class);
+                missionUpdate.putExtra("agent",agent);
                 startActivity(missionUpdate);
                 break;
             case R.id.agentProfile_imgAgentWebSite:
@@ -162,5 +159,32 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
         }
         website.setData(Uri.parse(websiteAddress));
         startActivity(website);
+    }
+    private void fillDetails() {
+        agentProfile_txtAgentName.setText(agent.getAgentName());
+
+        agentProfile_txtAgentLevel.setText(agent.getAgentLevel());
+
+        agentProfile_txtAgency.setText(agent.getAgencyName());
+        agentProfile_txtAgentWebsite.setText(agent.getAgentURL());
+        agentProfile_txtAgentCountry.setText(agent.getAgentCountry());
+        agentProfile_txtAgentPhoneNumber.setText(agent.getAgeentPhoneNumber());
+        agentProfile_txtAgentAddress.setText(agent.getAgeentAddress());
+
+        if(agent.getAgentPhotoPath() != null){
+            Bitmap bitmap = BitmapFactory.decodeFile(agent.getAgentPhotoPath());
+            Bitmap lowResBitmap = Bitmap.createScaledBitmap(bitmap,300,300,true);
+
+            agentProfile_imgAgent.setImageBitmap(lowResBitmap);
+            agentProfile_imgAgent.setScaleType(ImageView.ScaleType.FIT_XY);
+            //agentProfile_imgAgent.setTag(agent.getAgentPhotoPath());
+
+            if(bitmap!=null)
+            {
+                bitmap.recycle();
+                bitmap=null;
+            }
+        }
+
     }
 }

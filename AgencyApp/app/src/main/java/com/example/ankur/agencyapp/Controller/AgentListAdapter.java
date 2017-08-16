@@ -1,6 +1,8 @@
 package com.example.ankur.agencyapp.Controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,6 +60,16 @@ public class AgentListAdapter extends ArrayAdapter<Agents> {
 
         viewHolder.agentList_txtName.setText("Name:"+objAgent.getAgentName());
         viewHolder.agentList_txtLevel.setText("Level:"+objAgent.getAgentLevel());
+        if(objAgent!=null && objAgent.getAgentPhotoPath()!=null){
+            Bitmap bitmap = BitmapFactory.decodeFile(objAgent.getAgentPhotoPath());
+            Bitmap lowResBitmap = Bitmap.createScaledBitmap(bitmap,300,300,true);
+            viewHolder.agentList_imgAgentProfile.setImageBitmap(lowResBitmap);
+            if(bitmap!=null)
+            {
+                bitmap.recycle();
+                bitmap=null;
+            }
+        }
 
         return result;
     }

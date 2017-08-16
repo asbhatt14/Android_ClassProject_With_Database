@@ -296,7 +296,7 @@
                             android:id="@+id/agent_misionDetails"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
-                            android:hint="Click here"
+                            android:hint="Click here To Add Mission"
                             android:textSize="18sp"
                             android:textColor="@color/black"/>
                     </LinearLayout>
@@ -304,7 +304,7 @@
                 <RelativeLayout
                     android:id="@+id/agentAdd_rltChangePhoto"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true">
                     <ImageView
@@ -313,6 +313,7 @@
                         android:layout_height="100dp"
                         android:scaleType="fitXY"
                         android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
                         android:src="@drawable/ic_launcher"/>
                     <LinearLayout
                         android:layout_height="30dp"

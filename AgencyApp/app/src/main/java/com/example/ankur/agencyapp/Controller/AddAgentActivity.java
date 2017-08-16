@@ -1,8 +1,21 @@
 package com.example.ankur.agencyapp.Controller;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,15 +30,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ankur.agencyapp.BuildConfig;
 import com.example.ankur.agencyapp.DAO.AgentDAO;
 import com.example.ankur.agencyapp.DAO.MissionDAO;
 import com.example.ankur.agencyapp.Model.Agents;
 import com.example.ankur.agencyapp.Model.Mission;
 import com.example.ankur.agencyapp.R;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +61,11 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
     EditText agentAdd_edtAgentName,agentAdd_edtAgentLevel,agentAdd_edtAgency,agentAdd_edtAgentWebsite;
     EditText agentAdd_edtAgentCountry,agentAdd_edtAgentPhoneNumber,agentAdd_edtAgentAddress;
     Agents agent,objAgent;
+    RelativeLayout agentAdd_rltChangePhoto;
+    ImageView agentProfile_imgAgent;
+    static final int CAMERA_REQUEST_CODE = 01;
+    static final int CAMERA_CODE = 05;
+    String driAppPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +81,11 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
         agentAdd_edtAgentCountry = (EditText) findViewById(R.id.agentAdd_edtAgentCountry);
         agentAdd_edtAgentPhoneNumber = (EditText) findViewById(R.id.agentAdd_edtAgentPhoneNumber);
         agentAdd_edtAgentAddress = (EditText) findViewById(R.id.agentAdd_edtAgentAddress);
+        agentAdd_rltChangePhoto = (RelativeLayout) findViewById(R.id.agentAdd_rltChangePhoto);
+        agentProfile_imgAgent = (ImageView) findViewById(R.id.agentProfile_imgAgent);
 
         agentAdd_lnrMission.setOnClickListener(this);
+        agentAdd_rltChangePhoto.setOnClickListener(this);
 
         Intent intent = getIntent();
         agent = (Agents) intent.getSerializableExtra("agent");
@@ -85,8 +109,40 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
             case R.id.txtToolbarCancel:
                 finish();
                 break;
+            case R.id.agentAdd_rltChangePhoto:
+                startCamera();
+                break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == CAMERA_CODE){
+                loadImage();
+            }
+        }
+    }
+
+    private void loadImage() {
+        if(driAppPhoto != null){
+            Bitmap bitmap = BitmapFactory.decodeFile(driAppPhoto);
+            Bitmap lowResBitmap = Bitmap.createScaledBitmap(bitmap,300,300,true);
+
+            agentProfile_imgAgent.setImageBitmap(lowResBitmap);
+            agentProfile_imgAgent.setScaleType(ImageView.ScaleType.FIT_XY);
+            agentProfile_imgAgent.setTag(driAppPhoto);
+
+            if(bitmap!=null)
+            {
+                bitmap.recycle();
+                bitmap=null;
+            }
+
+          //  Toast.makeText(this,driAppPhoto,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,52 +219,74 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
 
     private void saveAgent() {
         Agents objAgent = agentsHelper();
-        AgentDAO dao = new AgentDAO(this);
+        if(objAgent!=null){
+            AgentDAO dao = new AgentDAO(this);
 
-        if(objAgent.getAgentId() == 0){
-            dao.dbInsert(objAgent);
-            Toast.makeText(this,"Agent Added",Toast.LENGTH_SHORT).show();
-        }else{
-            dao.dbUpdate(objAgent);
-            Toast.makeText(this,"Agent Updated",Toast.LENGTH_SHORT).show();
+            if(objAgent.getAgentId() == 0){
+                dao.dbInsert(objAgent);
+                Toast.makeText(this,"Agent Added",Toast.LENGTH_SHORT).show();
+            }else{
+                dao.dbUpdate(objAgent);
+                Toast.makeText(this,"Agent Updated",Toast.LENGTH_SHORT).show();
+            }
+
+            dao.close();
+
+            finish();
         }
-
-        dao.close();
-
-        finish();
     }
 
     private Agents agentsHelper() {
 //agentId INTEGER PRIMARY KEY, agentName TEXT NOT NULL,agencyName TEXT NOT NULL ,agentLevel TEXT,agentCountry TEXT, ageentPhoneNumber TEXT, agentURL TEXT, ageentAddress TEXT NOT NULL,missionId TEXT NOT NULL)";
         //Agents objAgent = new Agents();
-        objAgent.setAgentName(agentAdd_edtAgentName.getText().toString());
-        objAgent.setAgentLevel(agentAdd_edtAgentLevel.getText().toString());
-        objAgent.setAgencyName(agentAdd_edtAgency.getText().toString());
-        objAgent.setAgeentAddress(agentAdd_edtAgentAddress.getText().toString());
-        objAgent.setAgeentPhoneNumber(agentAdd_edtAgentPhoneNumber.getText().toString());
-        objAgent.setAgentCountry(agentAdd_edtAgentCountry.getText().toString());
-        objAgent.setAgentURL(agentAdd_edtAgentWebsite.getText().toString());
 
-        String missionId="";
-        if(lstMissionId.size()>0){
-            StringBuilder commaSepValueBuilder = new StringBuilder();
+        String agentName = agentAdd_edtAgentName.getText().toString();
+        String agnetLevel = agentAdd_edtAgentLevel.getText().toString();
+        String agnecyName = agentAdd_edtAgency.getText().toString();
+        String agentAddress = agentAdd_edtAgentAddress.getText().toString();
+        String agentPhoneNumber = agentAdd_edtAgentPhoneNumber.getText().toString();
+        String agentCountry = agentAdd_edtAgentCountry.getText().toString();
+        String agentUrl = agentAdd_edtAgentWebsite.getText().toString();
 
-            //Looping through the list
-            for ( int i = 0; i< lstMissionId.size(); i++){
-                //append the value into the builder
-                commaSepValueBuilder.append(lstMissionId.get(i));
+        if((agentName != null && !agentName.trim().isEmpty()) && (agnetLevel != null && !agnetLevel.trim().isEmpty()) &&
+                (agnecyName != null && !agnecyName.trim().isEmpty()) &&  (agentAddress != null && !agentAddress.trim().isEmpty())
+                && (agentPhoneNumber != null && !agentPhoneNumber.trim().isEmpty()) && (agentCountry != null && !agentCountry.trim().isEmpty())
+                && (agentUrl != null && !agentUrl.trim().isEmpty()) && lstMissionId.size()>0 ){
+            objAgent.setAgentName(agentAdd_edtAgentName.getText().toString());
+            objAgent.setAgentLevel(agentAdd_edtAgentLevel.getText().toString());
+            objAgent.setAgencyName(agentAdd_edtAgency.getText().toString());
+            objAgent.setAgeentAddress(agentAdd_edtAgentAddress.getText().toString());
+            objAgent.setAgeentPhoneNumber(agentAdd_edtAgentPhoneNumber.getText().toString());
+            objAgent.setAgentCountry(agentAdd_edtAgentCountry.getText().toString());
+            objAgent.setAgentURL(agentAdd_edtAgentWebsite.getText().toString());
 
-                //if the value is not the last element of the list
-                //then append the comma(,) as well
-                if ( i != lstMissionId.size()-1){
-                    commaSepValueBuilder.append(", ");
+            String missionId="";
+            if(lstMissionId.size()>0){
+                StringBuilder commaSepValueBuilder = new StringBuilder();
+
+                //Looping through the list
+                for ( int i = 0; i< lstMissionId.size(); i++){
+                    //append the value into the builder
+                    commaSepValueBuilder.append(lstMissionId.get(i));
+
+                    //if the value is not the last element of the list
+                    //then append the comma(,) as well
+                    if ( i != lstMissionId.size()-1){
+                        commaSepValueBuilder.append(", ");
+                    }
                 }
+                missionId = commaSepValueBuilder.toString();
             }
-            missionId = commaSepValueBuilder.toString();
+
+            objAgent.setMissionId(missionId);
+            objAgent.setAgentPhotoPath((String) agentProfile_imgAgent.getTag());
+            return objAgent;
+        }else{
+            Toast.makeText(this,"Please Enter all details",Toast.LENGTH_SHORT).show();
+            return null;
         }
 
-        objAgent.setMissionId(missionId);
-        return objAgent;
+
     }
 
     private void fillForm() {
@@ -244,8 +322,104 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
             agent_misionDetails.setText(agent_misionDetails.getText() + lstMissionHistoryTemp.get(i).getMissionName() + "\n");
         }
 
+        if(agent.getAgentPhotoPath() != null){
+            Bitmap bitmap = BitmapFactory.decodeFile(agent.getAgentPhotoPath());
+            Bitmap lowResBitmap = Bitmap.createScaledBitmap(bitmap,300,300,true);
+
+            agentProfile_imgAgent.setImageBitmap(lowResBitmap);
+            agentProfile_imgAgent.setScaleType(ImageView.ScaleType.FIT_XY);
+            agentProfile_imgAgent.setTag(agent.getAgentPhotoPath());
+
+            if(bitmap!=null)
+            {
+                bitmap.recycle();
+                bitmap=null;
+            }
+        }
+
+
+
         objAgent = agent;
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    openCamera();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void openCamera() {
+        Intent actioncamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        driAppPhoto = getExternalFilesDir("AgentPhotos") + "/" + System.currentTimeMillis() + ".jpg";
+
+        File filephoto = new File(driAppPhoto);
+
+        Uri photoURI;
+       /* Uri photoURI = FileProvider.getUriForFile(this,
+                BuildConfig.APPLICATION_ID + ".provider",
+                filephoto);*/
+
+        //Uri photoURI = Uri.fromFile(filephoto);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            photoURI = FileProvider.getUriForFile(this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    filephoto);
+        } else{
+            photoURI = Uri.fromFile(filephoto);
+        }
+
+        actioncamera.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+        startActivityForResult(actioncamera,CAMERA_CODE);
+    }
+
+    private void startCamera() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        CAMERA_REQUEST_CODE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }else{
+            openCamera();
+        }
     }
 
 }

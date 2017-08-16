@@ -52,6 +52,7 @@ public class AgentDAO extends SQLiteOpenHelper {
         values.put("agentURL",agents.getAgentURL());
         values.put("ageentAddress",agents.getAgeentAddress());
         values.put("missionId",agents.getMissionId());
+        values.put("agentPhotoPath",agents.getAgentPhotoPath());
         return values;
     }
 
@@ -76,6 +77,7 @@ public class AgentDAO extends SQLiteOpenHelper {
             objAgent.setAgentCountry(c.getString(c.getColumnIndex("agentCountry")));//agentURL
             objAgent.setAgentURL(c.getString(c.getColumnIndex("agentURL")));//agentCountry
             objAgent.setMissionId(c.getString(c.getColumnIndex("missionId")));
+            objAgent.setAgentPhotoPath(c.getString(c.getColumnIndex("agentPhotoPath")));
 
             agentsList.add(objAgent);
         }
@@ -126,6 +128,7 @@ public class AgentDAO extends SQLiteOpenHelper {
             objAgent.setAgentCountry(c.getString(c.getColumnIndex("agentCountry")));//agentURL
             objAgent.setAgentURL(c.getString(c.getColumnIndex("agentURL")));//agentCountry
             objAgent.setMissionId(c.getString(c.getColumnIndex("missionId")));
+            objAgent.setAgentPhotoPath(c.getString(c.getColumnIndex("agentPhotoPath")));
 
             agentsList.add(objAgent);
         }

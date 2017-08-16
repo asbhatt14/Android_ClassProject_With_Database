@@ -44,9 +44,10 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
                     AgentDAO ado=new AgentDAO(context);
                     ArrayList<Agents> data= (ArrayList<Agents>) ado.dbSearch();
 
+                    String code = "+1";
                     for(int j=0;j<data.size();j++)
                     {
-                        if(senderNum.compareTo(data.get(j).getAgeentPhoneNumber())==0)
+                        if(senderNum.compareTo(code.concat(data.get(j).getAgeentPhoneNumber()))==0)
                         {
                             Intent i1=new Intent(context,SplashActivity.class);
                             context.startActivity(i1);

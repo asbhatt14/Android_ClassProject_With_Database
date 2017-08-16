@@ -70,7 +70,7 @@ public class CustomDialogAdapter extends ArrayAdapter<Mission> {
                     selectedItems.add(objMission);
                    // Toast.makeText(getContext(),Integer.toString(selectedItems.size()),Toast.LENGTH_SHORT).show();
                 } else {
-                    selectedItems.remove(pos);
+                    selectedItems.remove(objMission);
                     //Toast.makeText(getContext(),"Removed",Toast.LENGTH_SHORT).show();
                 }
                 //Toast.makeText(getContext(),Boolean.toString(viewHolder.dialog_chkMission.isChecked()),Toast.LENGTH_SHORT).show();

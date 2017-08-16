@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="1"
     android:background="@color/listViewBackground"
     android:padding="10dp">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="0.1"
         android:gravity="center"
-        android:text="Mission List"
+        android:text="Photo Preiveiw"
+        android:layout_alignParentTop="true"
         android:textColor="@color/black"
+        android:padding="5dp"
         android:textSize="20sp" />
 
     <ListView
             android:id="@+id/lstDialog"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_above="@+id/dialog_lnrBottom"
-        android:layout_marginTop="10dp"/>
+            android:layout_below="@id/textView"
+            android:layout_marginTop="10dp"/>
         <LinearLayout
             android:id="@id/dialog_lnrBottom"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_weight="0.1"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="15dp">
             <Button
                 android:id="@+id/dialog_btnSave"
                 android:layout_width="0dp"
@@ -55,4 +55,4 @@
                 android:background="@drawable/login_button_background"/>
         </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
