@@ -6,7 +6,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,9 @@ import android.widget.Toast;
 import com.example.ankur.agencyapp.Model.Agents;
 import com.example.ankur.agencyapp.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AgentProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
@@ -26,6 +31,14 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
     ImageView agentProfile_imgAgentInfo,agentProfile_imgAgentSMS,agentProfile_imgAgentWebSite,agentProfile_imgAgent;
     ImageView agentProfile_imgAgentCall,agentProfile_imgAgentLocation,agentProfile_imgAgentCamera;
     Agents agent;
+    static final int MESSAGE_REQUEST_CODE = 03;
+    static final int CALL_REQ_CODE = 9;
+
+    String[] permissions = new String[] {
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.READ_SMS,
+            Manifest.permission.RECEIVE_SMS
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,17 +148,120 @@ public class AgentProfileActivity extends AppCompatActivity implements View.OnCl
     private void MakeCall() {
 
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},123);
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},CALL_REQ_CODE);
         }else{
-            Intent callIntent = new Intent(Intent.ACTION_VIEW);
-            callIntent.setData(Uri.parse("tel:"+agent.getAgeentPhoneNumber()));
-            startActivity(callIntent);
+            OpenDefaultCall();
         }
 
     }
 
+    private void OpenDefaultCall() {
+        Intent callIntent = new Intent(Intent.ACTION_VIEW);
+        callIntent.setData(Uri.parse("tel:"+agent.getAgeentPhoneNumber()));
+        startActivity(callIntent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MESSAGE_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+               /* if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    openDefaultSMS();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;*/
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openDefaultSMS();
+                } else {
+                    /*String permissions = "";
+                    for (String per : permissionsList) {
+                        permissions += "\n" + per;
+                    }*/
+                    // permissions list of don't granted permission
+                }
+                return;
+            }
+
+            case CALL_REQ_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    OpenDefaultCall();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
 
     private void sendSms() {
+
+        if(checkPermissions()){
+            openDefaultSMS();
+        }
+
+        /*if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        MESSAGE_REQUEST_CODE);
+
+            }
+        }else{
+            openDefaultSMS();
+        }*/
+
+    }
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MESSAGE_REQUEST_CODE );
+            return false;
+        }
+        return true;
+    }
+
+    private void openDefaultSMS() {
         Intent smsIntent = new Intent(Intent.ACTION_VIEW);
         smsIntent.setData(Uri.parse("sms:"+agent.getAgeentPhoneNumber()));
         startActivity(smsIntent);

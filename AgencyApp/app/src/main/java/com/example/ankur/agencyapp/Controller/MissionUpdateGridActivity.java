@@ -320,7 +320,7 @@ public class MissionUpdateGridActivity extends AppCompatActivity implements View
         TextView txtToolbar = (TextView) toolbar.findViewById(R.id.txtToolbar);
         ImageView imgToolbarBack = (ImageView) toolbar.findViewById(R.id.imgToolbarBack);
 
-        txtToolbar.setText("Mission Update");
+        txtToolbar.setText("Mission Image Add");
 
         setSupportActionBar(toolbar);
 

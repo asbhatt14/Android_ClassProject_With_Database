@@ -66,6 +66,12 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
     static final int CAMERA_REQUEST_CODE = 01;
     static final int CAMERA_CODE = 05;
     String driAppPhoto;
+
+    String[] permissions = new String[] {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,7 +199,6 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
                 dialog.dismiss();
             }
         });
-
 
         dialog.show();
     }
@@ -347,7 +352,7 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case CAMERA_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
+/*                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
@@ -359,10 +364,21 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
                     // functionality that depends on this permission.
                 }
                 return;
-            }
+            }*/
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openCamera();
+                } else {
+                    /*String permissions = "";
+                    for (String per : permissionsList) {
+                        permissions += "\n" + per;
+                    }*/
+                    // permissions list of don't granted permission
+                }
+                return;
 
-            // other 'case' lines to check for other
-            // permissions this app might request
+                // other 'case' lines to check for other
+                // permissions this app might request
+            }
         }
     }
 
@@ -393,7 +409,15 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void startCamera() {
-        if (ContextCompat.checkSelfPermission(this,
+
+
+        if(checkPermissions()){
+            openCamera();
+        }
+
+
+
+        /*if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -413,13 +437,24 @@ public class AddAgentActivity extends AppCompatActivity implements View.OnClickL
                         new String[]{Manifest.permission.CAMERA},
                         CAMERA_REQUEST_CODE);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         }else{
             openCamera();
-        }
+        }*/
     }
-
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),CAMERA_REQUEST_CODE );
+            return false;
+        }
+        return true;
+    }
 }
